@@ -1,0 +1,8 @@
+<h1>Editar Blog</h1>
+
+<% form_for :blog,
+     :url  => blog_path(@blog),
+     :html => { :method => :put } do |f| -%>
+<%= render :partial => "form", :locals => { :f => f } %>
+<%= submit_tag 'Atualizar' %> or <%= link_to 'cancelar', blogs_path %>
+<% end -%>

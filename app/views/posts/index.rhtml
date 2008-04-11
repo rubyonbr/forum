@@ -1,0 +1,58 @@
+<% @page_title = search_posts_title -%>
+
+<h1>
+<% if params[:q].blank? -%>
+  <%= @page_title %>
+<% else -%>
+  Procurando por '<%= h params[:q] %>'
+<% end -%>
+</h1>
+<p class="subtitle">
+  <%= feed_icon_tag @page_title, (search_posts_path + '.rss') %>
+  <%= pluralize(@post_pages.item_count,"post") %> encontrado
+</p>
+
+<% if @post_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @post_pages, :window_size => 10, :params => params %></strong></p>
+<% end -%>
+
+<table border="0" cellspacing="0" cellpadding="0" class="posts wide">
+<% for post in @posts do %>
+<% unless post == @posts.first %>
+<tr class="spacer">
+  <td colspan="2">&nbsp;</td>
+</tr>
+<% end %>
+<tr class="post hentry" id="<%= post.dom_id %>">
+  <td class="author vcard" valign="top">
+    <div class="date">
+      <abbr class="updated" title="<%= post.created_at.xmlschema %>">
+      <% if post.created_at > Time.now.utc-24.hours%>
+      <%= time_ago_in_words(post.created_at).sub(/about /, '') %>
+      <% else %>
+      <%= post.created_at.strftime("%d/%m/%Y")%>
+      <% end %>
+      </abbr>
+    </div>
+
+    <%= avatar_for post.user %>
+    <span class="fn"><%= link_to truncate(h(post.user.display_name), 15), user_path(post.user), :class => (post.user == @posts.first.user ? "admin" : nil) %></span>
+    <span class="posts"><%= pluralize post.user.posts_count, 'post' %></span>
+  </td>
+  <td class="body entry-content" valign="top">
+    <p class="topic">Tópico: <%= link_to h(post.topic_title), topic_path(post.forum_id, post.topic_id) %></p>
+    
+    <%= format_text(post.body) %>
+  </td>
+</tr>
+
+<% end %>
+</table>
+
+<% if @post_pages and @post_pages.current.next %>
+<p style="float:right;"><%= link_to "Próxima página", { :page => @post_pages.current.next }.merge(params.reject{|k,v| k=="page"})  %></p>
+<% end %>
+
+<% if @post_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @post_pages, :window_size => 10, :params => params %></strong></p>
+<% end -%>

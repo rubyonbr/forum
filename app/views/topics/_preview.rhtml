@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html>
+<head>
+  <title><%= "#{h @page_title} - " if @page_title %>Ruby on Br - A comunidade Ruby brasileira</title>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+  <%= stylesheet_link_tag 'display' %>
+  <%#= stylesheet_link_tag 'ruby' %>
+  <%= stylesheet_link_tag 'SyntaxHighlighter' %>
+	<%#= javascript_include_tag :defaults %>
+	<%= javascript_include_tag "prototype", "application" %>
+	<%= javascript_include_tag "syntax/shCore.js" %>
+	<%= javascript_include_tag "syntax/shBrushCss.js", "syntax/shBrushJScript.js", "syntax/shBrushSql.js", "syntax/shBrushRuby.js" %>
+	
+  <!--[if IE]>
+  <style>
+    .ruby, pre, code {
+      width: 650px;
+      padding-bottom: 2em;
+     }
+  </style>
+  <![endif]-->
+  
+</head>
+<body>
+<div style="text-align: right; border-bottom: 1px solid black; ">
+  <span class="button"><a href="JavaScript:Element.hide('live-preview');">Fechar</a></span>
+</div>
+<div style="width: 95%; margin-left: 1em;">
+<%= format_text(@body).gsub("textarea name='code'", "textarea name='code_temp'") %>
+</div>
+<script language="javascript">  
+     dp.SyntaxHighlighter.HighlightAll('code_temp');  
+</script>
+</body>
+</html>

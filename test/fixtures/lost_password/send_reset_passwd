@@ -1,0 +1,3 @@
+LostPassword#send_reset_passwd
+
+Find me in app/views/lost_password/send_reset_passwd.rhtml

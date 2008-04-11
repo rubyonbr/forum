@@ -1,0 +1,98 @@
+<% content_for :right do %>
+
+<br/>
+    <div class="box_main">
+      <div class="box_title"> Moderadores </div>
+      <div class="box_content">
+      <% if @forum.moderators.any? -%>
+        <ul >
+          <% @forum.moderators.each do |user| %>
+             <%= link_to "<li id='user'>#{h user.display_name}</li>", user_path(user) %>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>Esse fórum está sem moderador</p>
+        <p>Por favor, seja sempre cortês.</p>
+      <% end %>
+      </div>
+    </div>
+    </div>
+
+
+<% end %>
+
+
+<p class="subtitle">
+  
+ 
+  
+</p>
+<div class="crumbs">
+<%= link_to "Índice", "/forums/" %> <span class="arrow">&rarr;</span>
+</div>
+<h1 style="margin-top:0.5em; ">
+  <%= feed_icon_tag @forum.name, formatted_forum_posts_path(@forum, :rss) %>  <%= h @forum.name %>
+ </h1>
+ <p class="subtitle"> 
+    <%= pluralize @forum.topics_count, 'tópico' %>, <%= pluralize @forum.posts_count, 'post' %>
+  </p>
+ <p class="desc"><small><%= h @forum.description %></small>
+
+</p>
+
+
+<% if @topic_pages.page_count > 1 -%>
+<p style="float:right; margin-top:0;"><%= link_to 'Novo tópico', new_topic_path(@forum), :class => "utility" %></p>
+<p class="pages">Páginas: <strong><%= pagination_links @topic_pages, :window_size => 10 %></strong></p>
+<% end -%>
+
+<table border="0" cellspacing="0" cellpadding="0" class="wide topics">
+<tr>
+  <th class="la" colspan="2">Tópico</th>
+  <th width="1%">Posts</th>
+  <th width="1%">Visualizações</th>
+  <th class="la">Último post</th>
+<tr>
+<% for topic in @topics %>
+  <% if topic.posts_count - 1 >= 0 -%>
+<tr class="hentry">
+  <td style="padding:5px; width:16px;" class="c1">
+    <% if recent_topic_activity(topic) %>
+    <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => "Atividade recente" %>
+    <% else %>
+      <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => "Sem atividade recente" %>
+    <% end %>
+  </td>
+  <td class="c2">
+    <%= "Sticky: <strong>" if topic.sticky? %>
+    <%= link_to h(topic.title), topic_path(@forum, topic), :class => "entry-title", :rel => "bookmark" %>
+    <%= "</strong>" if topic.sticky? %>
+    <% if topic.paged? -%>
+    <small><%= link_to 'último', topic_path(:forum_id => @forum, :id => topic, :page => topic.last_page) %></small>
+    <% end -%>
+  </td>
+  <td class="ca inv stat"><%= topic.posts_count - 1 %></td>
+  <td class="ca inv stat"><%= number_with_delimiter(topic.views) %></td>
+  <td class="lp">
+    <% @last = topic.posts.last || topic -%>
+    <abbr class="updated" title="<%= @last.created_at.xmlschema %>"><%= time_ago_in_words(@last.created_at) %></abbr>
+    por <span class="author"><strong class="fn"><%= h(@last.user.display_name) %></strong></span>
+    <span><%= link_to 'visualizar', topic_path(:forum_id => @forum, :id => topic, :page => topic.last_page, :anchor => @last.dom_id) %></span>
+  </td>
+</tr>
+ <% end -%>
+<% end -%>
+</table>
+
+<% if @topic_pages and @topic_pages.current.next %>
+<p style="float:right;"><%= link_to "Próxima página", { :page => @topic_pages.current.next }.merge(params.reject{|k,v| k=="page"})  %></p>
+<% end %>
+
+<% if @topic_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @topic_pages, :window_size => 10 %></strong></p>
+<% end -%>
+
+<p><%= link_to 'Novo tópico', new_topic_path(@forum), :class => "utility" %></p>
+<div class="crumbs">
+<%= link_to "Índice", "/forums/" %> <span class="arrow">&rarr;</span>
+</div>

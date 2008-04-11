@@ -1,0 +1,23 @@
+<h1>Login</h1>
+<div id="login">
+<%= start_form_tag sessions_path %>
+<p>
+  <label for="login">Login</label><br />
+  <%= text_field_tag :login, params[:login] %>
+</p>
+
+<p>
+  <label for="password">Senha</label><br />
+  <%= password_field_tag :password %>
+</p>
+
+<p><%= check_box_tag "remember_me", "1", true %> <label>Lembrar de mim nesse computador</p>
+
+<p><%= submit_tag 'Login' %></p>
+</div>
+<% unless logged_in? %>
+<div id="lost_password">
+  <%= link_to_remote "Caraca! Esqueci minha senha!", :update => "lost_password", :url => {:controller => "sessions", :action => "lost_password"} %>
+</div>
+<% end %>
+<%= javascript_tag "$('login').focus();"%>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<cross-domain-policy>
+	<allow-access-from domain="*.egenial.com.br"/>
+	<allow-access-from domain="*.rubyonbr.org" />
+</cross-domain-policy>
+
+

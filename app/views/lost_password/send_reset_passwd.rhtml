@@ -1,0 +1,12 @@
+<h2> Olá rubiano <%= @name %></h2>
+<br/>
+<a href="http://<%= @host%>/<%= url_for(:controller => "sessions", 
+    :action => "reset_my_password",
+    :id => @id,
+    :login_key => @login_key,
+    :password => @password)
+    %>"> Click aqui para resetar seu password </a>
+    
+    <br/>
+    
+Recomendamos pregar um post-it no monitor :)

@@ -1,0 +1,24 @@
+<h2>Básicas</h2>
+
+<% if not @user.valid? and @user.errors.on(:login) %>
+
+<p>
+  <label for="login">Login</label></p>
+  <p class="help"><strong>Por favor, mude seu login.</strong>  Logins devem ter pelo menos dois caracteres e podem conter letras, números ou underscore.</p>
+
+<p>
+  <%= settings.text_field :login %>
+</p>
+<% end %>
+
+<p>
+  <label for="display_name">Nome de Exibição (opcional)</label><br />
+  <%= settings.text_field :display_name %>
+</p>
+
+<p>
+  <label for="user_email">Email</label><br />
+  <%= settings.text_field :email %>
+</p>
+
+

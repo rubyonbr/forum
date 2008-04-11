@@ -1,0 +1,41 @@
+<% content_for :css do -%>
+  pre {
+    overflow: auto;
+    background-color: #EEE;
+  }
+<% end -%>
+<% @page_title = "Blogosfera" %>
+<div style="float: right; position: relative; top: -25px; text-align: right">
+<h1>
+<% exclamation = ['Uh...', 'Ah!', 'Err...', 'Yay!', 'Yeah!', 'Sim!', 'Pois é...', 'Isso mesmo,', 'Mas heim?!', 'Hmmm...', 'Ah tá!']%>
+<%= feed_icon_tag @page_title, 'blogosfera.rss' %>
+<a href="http://pt.wikipedia.org/wiki/Blogosfera" style="text-decoration: none; color: black"><%= exclamation[rand(exclamation.size)]%> Blogosfera!</a></h1>
+<span style="color: gray; font-size: 10px; position: relative; top: -10px">Última atualização: <%= distance_of_time_in_words(last_cache, Time.now) %> </span>
+</div>
+
+<% content_for :right do -%>
+<% cache(:part => 'blogs') do -%>
+
+<!-- cached at <%= Time.now.to_s %>-->
+
+  <h4>Blogs</h4>
+  <ul class="flat talking">
+  <% @blogs.each do |blog| -%>
+    <li><a href="<%= blog.channel.link %>"><%=h blog.channel.title %></a><br /><%= blog.author %></li>
+  <% end -%>
+  </ul>
+<% end -%>
+
+<!-- end cached -->
+
+<% end -%>
+
+<% cache(:part => 'posts') do -%>
+
+<!-- cached at <%= Time.now.to_s %>-->
+
+<%= render :partial => "posts" %>
+
+<!-- end cached -->
+
+<% end -%>

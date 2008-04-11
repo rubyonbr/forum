@@ -1,0 +1,12 @@
+<%= error_messages_for :blog %>
+<p style="float:right; margin-top:0; text-align: center">
+<label>Avatar</label><br />
+<img src="<%= @blog.avatar %>" width="32px" height="32px"/><br/>
+<%= f.text_field :avatar %>
+</p>
+
+<p id="blog_url">URL:<br/><%= f.text_field :url %></p>
+<p id="blog_rss">RSS:<br/><%= f.text_field :rss %></p>
+<p id="blog_author">Author:<br/><%= f.text_field :author %></p>
+<p id="blog_comment_expression">Comment Expression:<br/><%= f.text_field :comment_expression %></p>
+<p id="blog_restricted">Restricted:<br/><%= f.check_box :restricted %></p>

@@ -1,0 +1,57 @@
+
+
+Processing TopicsController#preview (for 200.183.0.130 at 2008-03-24 13:38:05) [POST]
+  Session ID: 4e29347d6ebf9efa4a9b4d6c8d4e94a4
+  Parameters: {"commit"=>"Postar Tópico", "topic"=>{"body"=>"Povo,\n\nFiz alguns consertos que estavam precisando no site desde novembro (aff, como estou devagar!). Negligenciei minhas funções de zelador do site a acabaram aparecendo umas goteiras aqui e ali, sem falar que o mato cresceu de um jeito que ninguém mais posta artigo nem nada, culpa minha que não fui atrás do pessoal (eles estão aí e nunca negaram nada pra gente).\n\nBom, os primeiros consertos foram os RSSs na página principal (fórum, livros, notícias) que estavam com problemas sérios, agora voltaram a funcionar. Outro conserto foi a reativação da sessão de artigos com o artigo do Alexandre (o Tio da ObjectData) sobre Postgres. Só que ainda estou com um problema e não consegui postar a coisa no Radiant na sessão certa. Não tem problema, basta seguir o \"link\":http://forum.rubyonbr.org/forums/4/topics/2863 no notícias e o site dele mesmo está hospedando o artigo.\n\nNos próximos dias estarei caçando mais conteúdo para o site.\n\nUma coisa que eu gostaria é que o povo postasse mais notícias, eu não dou conta de ficar postando no nível que precisa (aliás, não dou conta nem do mínimo :D). Quem quiser eu passo o RSS de referência que ando usando (na verdade é um bem bolado de vários RSSs)\n\nE bola pra frente\n\n", "title"=>"Pequenos consertos", "sticky"=>"0"}, "action"=>"preview", "controller"=>"topics"}
+Completed in 0.01809 (55 reqs/sec) | Rendering: 0.01224 (67%) | DB: 0.00451 (24%) | 200 OK [http://forum.rubyonbr.org/topics/preview]
+
+
+Processing TopicsController#show (for 72.14.199.9 at 2008-03-24 13:38:31) [GET]
+  Session ID: 16eacd7ae5c83e95755acb761e13e940
+  Parameters: {"format"=>"rss", "action"=>"show", "id"=>"1719", "controller"=>"topics", "forum_id"=>"1"}
+Rendering topics/show.rxml
+Completed in 0.04968 (20 reqs/sec) | Rendering: 0.02344 (47%) | DB: 0.02206 (44%) | 200 OK [http://forum.rubyonbr.org/forums/1/topics/1719.rss]
+
+
+Processing TopicsController#show (for 72.14.199.9 at 2008-03-24 13:38:35) [GET]
+  Session ID: efcfb7a8dcb2c0546399b27602ecf88a
+  Parameters: {"format"=>"rss", "action"=>"show", "id"=>"2365", "controller"=>"topics", "forum_id"=>"1"}
+Rendering topics/show.rxml
+Completed in 0.09034 (11 reqs/sec) | Rendering: 0.04585 (50%) | DB: 0.04009 (44%) | 200 OK [http://forum.rubyonbr.org/forums/1/topics/2365.rss]
+
+
+Processing TopicsController#show (for 72.14.199.9 at 2008-03-24 13:38:52) [GET]
+  Session ID: 6ff58e2d91024a25667f1872fc8fd5b4
+  Parameters: {"format"=>"rss", "action"=>"show", "id"=>"2736", "controller"=>"topics", "forum_id"=>"1"}
+Rendering topics/show.rxml
+Completed in 0.36601 (2 reqs/sec) | Rendering: 0.25928 (70%) | DB: 0.10162 (27%) | 200 OK [http://forum.rubyonbr.org/forums/1/topics/2736.rss]
+
+
+Processing TopicsController#show (for 72.14.199.9 at 2008-03-24 13:38:55) [GET]
+  Session ID: f91e60e4a8ee86b73692eac6cd447962
+  Parameters: {"format"=>"rss", "action"=>"show", "id"=>"2328", "controller"=>"topics", "forum_id"=>"12"}
+Rendering topics/show.rxml
+Completed in 0.03849 (25 reqs/sec) | Rendering: 0.01936 (50%) | DB: 0.01510 (39%) | 200 OK [http://forum.rubyonbr.org/forums/12/topics/2328.rss]
+
+
+Processing TopicsController#show (for 38.99.13.124 at 2008-03-24 13:39:00) [GET]
+  Session ID: c17d25d6d31389a802fe94082a9ed452
+  Parameters: {"action"=>"show", "id"=>"375", "controller"=>"topics", "forum_id"=>"1", "page"=>"1"}
+Rendering  within layouts/application
+Rendering topics/show
+Completed in 0.07715 (12 reqs/sec) | Rendering: 0.03143 (40%) | DB: 0.04063 (52%) | 200 OK [http://forum.rubyonbr.org/forums/1/topics/375?page=1]
+
+
+Processing PostsController#index (for 196.32.196.90 at 2008-03-24 13:40:04) [GET]
+  Session ID: a3ad8625fa4a3b56ba01998722210dd8
+  Parameters: {"action"=>"index", "controller"=>"posts", "forum_id"=>"5", "page"=>"4"}
+Rendering layoutfalseactionindexcontent_typetext/html within layouts/application
+Rendering posts/index
+Completed in 0.85101 (1 reqs/sec) | Rendering: 0.36231 (42%) | DB: 0.47975 (56%) | 200 OK [http://forum.rubyonbr.org/forums/5/posts?page=4]
+
+
+Processing TopicsController#show (for 74.6.30.187 at 2008-03-24 13:40:14) [GET]
+  Session ID: 615243f977d5d5458deb27e0b92c2677
+  Parameters: {"format"=>"rss", "action"=>"show", "id"=>"133", "controller"=>"topics", "forum_id"=>"10"}
+Rendering topics/show.rxml
+Completed in 0.32498 (3 reqs/sec) | Rendering: 0.19446 (59%) | DB: 0.12461 (38%) | 200 OK [http://forum.rubyonbr.org/forums/10/topics/133.rss]

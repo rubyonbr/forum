@@ -1,0 +1,16 @@
+<table border="1">
+  <tr>
+    <th>Author</th>
+    <th>URL</th>
+    <th>&nbsp;</th>
+  </tr>
+<% @blogs.each do |blog| -%>
+  <tr>
+    <td><%= link_to(h(blog.author), edit_blog_path(blog)) %></td>
+    <td><%= link_to(h(blog.url), edit_blog_path(blog)) %></td>
+    <td><%= button_to "Apagar", blog_path(blog), :method => 'delete', :confirm => "Certeza, velhinho?"%></td>
+  </tr>
+<% end -%>
+</table>
+<br />
+<%= link_to("Resetar cache", url_for(reset_blogs_path))%> | <%= link_to("Novo", url_for(new_blog_path))%><br />

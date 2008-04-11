@@ -1,0 +1,26 @@
+<% cache do
+  xml = Builder::XmlMarkup.new(:indent => 2)
+  xml.instruct! :xml, :version=>"1.0", :encoding=>"UTF-8"
+  
+  xml.rss "version" => "2.0" do
+    xml.channel do
+      xml.title "Blogosfera | RubyOnBr"
+      xml.link 'http://forum.rubyonbr.org/blogosfera'
+      xml.copyright 'Respectivo aos autores dos feeds e distribuidores'
+  	  xml.generator 'http://rubyonbr.org'
+      xml.language "pt-br"
+      xml.ttl "60"
+  
+      @posts.each do |post|
+        xml.item do
+          xml.title h(post.title)
+          xml.description post.description
+          xml.pubDate post.date.rfc822
+          #xml.guid "urn:uuid:#{post.id}", "isPermaLink" => "false"
+          xml.author h(post.author)
+          xml.link post.link
+        end
+      end
+    end
+  end
+%><%= xml.target! %><% end %>

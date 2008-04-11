@@ -1,0 +1,8 @@
+xm.item do
+  xm.title h(post.respond_to?(:topic_title) ? post.topic_title : post.topic.title)
+  xm.description format_text(post.body.to_s)
+  xm.pubDate post.created_at.rfc822
+  xm.guid "urn:uuid:#{post.id}", "isPermaLink" => "false"
+  xm.author "#{post.user.display_name}"
+  xm.link topic_url(post.forum_id, post.topic_id)
+end

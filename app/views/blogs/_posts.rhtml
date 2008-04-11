@@ -1,0 +1,18 @@
+<% @posts.each_with_index do |post, index| -%>
+<h1>
+  <% if post.avatar && !post.avatar.empty? -%>
+  <img src="<%= post.avatar %>" width="32px" height="32px" />
+  <% end -%>
+  <a href="<%= post.channel_link %>"><%=sanitize post.channel_title %></a>
+</h1>
+<h2><a href="<%= post.link %>"><%=sanitize post.title %></a><span style="color: gray; font-size: 12px"><%=h post.date_as_string %></span></h2>
+<%=sanitize post.description %>
+<p>
+<% if post.comment_link.empty? -%>
+  <span style="color: gray; font-size: 12px">(Esse blog não permite comentários)</span>
+<% else -%>
+  <a href="<%= post.comment_link %>">Comente esse post</a>
+<% end -%>
+</p>
+<%= "<hr/>" if index < posts.size - 1 %>
+<% end -%>

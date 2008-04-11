@@ -1,0 +1,9 @@
+#Email Configuration
+--- 
+:authentication: :plain
+:password: pulapula
+:port: 25
+:user_name: atendimento@fonip.com.br
+:domain: smtp.ih.com.br
+:address: smtp.ih.com.br
+

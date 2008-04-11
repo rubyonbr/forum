@@ -1,0 +1,6 @@
+<h1>Novo Fórum</h1>
+
+<% form_for :forum, :url => forums_path do |f| -%>
+<%= render :partial => "form", :locals => { :f => f } %>
+<%= submit_tag 'Criar' %> or <%= link_to 'cancelar', forums_path %>
+<% end -%>

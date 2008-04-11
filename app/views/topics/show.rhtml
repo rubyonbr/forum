@@ -1,0 +1,164 @@
+<% @page_title = @topic.title %>
+
+<% content_for :right do %>
+
+<br/>
+    <div class="box_main">
+      <div class="box_title"> Participantes </div>
+      <div class="box_content">
+        <ul >
+        <% @topic.posts.map{ |p| p.user }.uniq.each do | user | %>
+
+           <%= link_to "<li id='user'>#{h user.display_name}</li>", user_path(user) %>
+        <% end %>
+
+        
+
+        </ul>
+      </div>
+    </div>
+    </div>
+
+
+
+<%
+=begin
+%>
+
+
+
+<ul class="flat talking">
+  <% @topic.posts.reverse.inject(ActiveSupport::OrderedHash.new) { |h, p| h[p.user] = p ; h }.slice(0,11).each do |user, post| -%>
+  <li><%= h user.display_name %><br /
+    <span><%= link_to "#{time_ago_in_words(post.created_at,Time.now.utc)}", topic_path(:forum_id => @forum, :id => @topic, :anchor => post.dom_id) %></span>
+    </li>
+  <% end %>
+</ul>
+<%
+=end
+%>
+<% end %>
+
+<div class="crumbs">
+  <%= link_to "Índice", "/forums/" %> <span class="arrow">&rarr;</span>
+  <%= link_to h(@topic.forum.name), forum_path(@topic.forum) %> <span class="arrow">&rarr;</span>
+</div>
+
+<% if logged_in? && @topic.editable_by?(current_user) %>
+<h1 style="margin-top:0.5em;" onmouseover="$('topic_mod').show();" onmouseout="$('topic_mod').hide();">
+<% else %>
+<h1 style="margin-top:0.5em;">
+<% end %>
+
+
+  <%= h @topic.title %>
+    <% if logged_in? && @topic.editable_by?(current_user) %>
+    <span style="display:none;" id="topic_mod"><%= link_to('editar', edit_topic_path(@forum, @topic), :class => "utility") %> |
+    <%= link_to('apagar', topic_path(@forum, @topic), :class => "utility", :method => :delete, :confirm => "Apagar esse tópico para sempre?") %>
+    </span>
+    <% end %>
+</h1>
+
+<p class="subtitle">
+  <%= feed_icon_tag @topic.title, formatted_topic_path(@forum, @topic, :rss) %>
+  <%= pluralize @topic.posts.count, 'post' %>, <%= pluralize @topic.voices, 'participante' %>
+</p>
+
+<% if @post_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @post_pages, :window_size => 10 %></strong></p>
+<% end -%>
+
+<a name="<%= @posts.first.dom_id %>" id="<%= @posts.first.dom_id %>">
+
+<table border="0" cellspacing="0" cellpadding="0" class="posts wide">
+<% for post in @posts do %>
+<% unless post == @posts.first %>
+<tr class="spacer">
+  <td colspan="2">
+    <a name="<%= post.dom_id %>" id="<%= post.dom_id %>">
+    &nbsp;</td>
+</tr>
+<% end %>
+<tr class="post hentry">
+  <td class="author vcard" style="width: 130px; background-color: #eee">
+    <div class="date">
+      <a href="#<%= post.dom_id %>" rel="bookmark">
+      <abbr class="updated" title="<%= post.created_at.xmlschema %>">
+      <%= time_ago_in_words(post.created_at) %>
+      </abbr>
+      </a>
+    </div>
+
+    <%= avatar_for post.user %>
+    <span class="fn"><%= link_to truncate(h(post.user.display_name), 15), user_path(post.user), :class => (post.user == @posts.first.user ? "admin" : nil) %></span>
+    <span class="posts"><%= pluralize post.user.posts_count, 'post' %></span>
+
+    <% if logged_in? && post.editable_by?(current_user) -%>
+    <p>
+      <span class="edit">
+        <%= link_to('Editar post', edit_post_path(:forum_id => @forum, :topic_id => @topic, :id => post, :page => params[:page]), :class => "utility") %>
+      </span>
+    </p>
+    <% end -%>
+
+
+  </td>
+  <td class="body entry-content" valign="top">
+<!--
+    <%= link_to_function image_tag('clearbits/comment.gif', :class => 'icon reply'), "$('reply').toggle()" if logged_in? %>
+-->
+    <%= format_text(post.body) %>
+  </td>
+</tr>
+
+<% end %>
+</table>
+
+<% if @post_pages and @post_pages.current.next %>
+<p style="float:right;"><%= link_to "Próxima página", { :page => @post_pages.current.next }.merge(params.reject{|k,v| k=="page"})  %></p>
+<% end %>
+
+<% if @post_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @post_pages, :window_size => 10 %></strong></p>
+<% end -%>
+<!-- yes, i use setTimeout for a reason -->
+<p><%= link_to_function "Responder ao tópico", "$('reply').toggle(); setTimeout('$(\"post_body\").focus();',50)", :class => "utility" if logged_in? %></p>
+
+<% if logged_in? %>
+<% display = flash[:bad_reply] ? "display:block" : "display:none" -%>
+<div id="reply" style="<%= display %>">
+<% content_for("css") do -%>
+#live-preview {
+  border:1px solid;
+  background-color: white;
+  width: 65%;
+  height: 150px;
+  overflow: auto;
+}
+
+<% end -%>
+  <div id="live-preview" style="display:none;"></div>
+  <%= content_tag 'p', h(flash[:bad_reply]), :class => 'notice' if flash[:bad_reply] %>
+  <% form_for :post, :url => posts_path(:forum_id => @forum, :topic_id => @topic, :page => @topic.last_page), :html => {:id => "entry-form"} do |f| -%>
+  <table width="65%" border="0">
+    <tr>
+      <td><%= f.text_area :body, :rows => 8 %>
+          <%= render(:partial => "format") %>
+        </td>
+    </tr>
+    <tr>
+      <td valign="top">
+        <%= submit_tag :Responder %>
+        <span class="button_or"> ou </span>
+        <%= submit_to_remote "entry-form", "Prever", :update=> "live-preview", :complete=> "Element.show('live-preview');", :url => {:action => "preview"} %>
+        <span class="button_or"> ou <%= link_to_function 'cancelar', "$('reply').hide();Element.hide('live-preview');" %></span>
+      </td>
+    </tr>
+  </table>
+  <% end -%>
+</div>
+<% end %>
+<div class="crumbs">
+  <%= link_to "Índice", "/forums/" %> <span class="arrow">&rarr;</span>
+  <%= link_to h(@topic.forum.name), forum_path(@topic.forum) %> <span class="arrow">&rarr;</span>
+</div>

@@ -1,0 +1,120 @@
+<% content_for :right do %>
+  <% if admin? %>
+    <h6>Admin</h6>
+    <p><%= link_to 'Criar novo fórum', new_forum_path, :class => "utility" %></p>
+  <% end %>
+
+  <br/>
+  <div id="feed" >
+    <p>
+      <%= link_to_function "<img src='/images/find.gif' /><br>Pesquisa", "$('search').toggle(); $('search_box').focus();", :class=>"link_feed" %>
+      <div id="search" style="display:none;">
+        <%= start_form_tag all_posts_path, :method => 'get' %>
+        <%= text_field_tag :q, params[:q], :size => 15, :id => :search_box %>
+        <%= end_form_tag %>
+      </div>
+    
+    </p>
+  
+    <p>
+      <%= link_to "<img src='/images/user_group.gif' /><br>Usuários", users_url,:class => "link_feed" %>
+    </p>
+    <p>
+      <a class="link_feed" href="<%= all_posts_path %>"> <img src="/images/baloom.gif" /><br>Posts Recentes</a>
+    </p>
+  </div>
+
+  <% unless User.currently_online.empty? %>
+    <div class="box_main">
+      <div class="box_title"> Usuários online </div>
+      <div class="box_content">
+        <ul >
+          <%= User.currently_online.map { |u| link_to "<li id='user'>#{h u.display_name}</li>", user_path(u) } %><br />
+        </ul>
+      </div>
+    </div>
+    </div>
+  <% end %>
+
+
+<% end %>
+<br/>
+<%
+#=begin
+%>
+
+<table border="0" cellspacing="0" cellpadding="0" class="wide forums" >
+  <tr >
+    <th class="la" width="55%" colspan="2">Fórum</th>
+    <th class="la" width="43%">Últimos posts</th>
+  </tr>
+  <% for forum in @forums do %>  
+      <tr>
+        <td  valign="top" class="vat c1">
+          <% if recent_forum_activity(forum) %>
+            <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => "Atividade recente" %>
+          <% else %>
+            <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => "Sem atividade recente" %>
+          <% end %>
+        </td>
+        <td class="c2">
+          <% if admin? -%>
+            <%= link_to "Editar", edit_forum_path(forum), :class => "tiny", :rel => "directory", :style => "float:right" %>
+          <% end %>
+          <%= link_to h(forum.name), forum_path(forum), :class => "title" %>
+          <div class="posts">
+            <%= number_with_delimiter(forum.topics_count) %> tópicos, 
+            <%= number_with_delimiter(forum.posts_count) %> posts
+          </div>
+          <p><%= forum.description %></p>
+        </td>
+        <td class="inv lp">
+      
+          <table border="0" cellspacing="0" cellpadding="0" class="wide topics">
+            <% i=0 %>
+            <% for topic in forum.topics %>
+              <% break if (i+=1) ==4 %> 
+              <% if topic.posts_count - 1 >= 0 -%>
+                <tr class="hentry">
+                  <td style="padding:5px; width:16px;" class="c1">
+                    <% if recent_topic_activity(topic) %>
+                      <%= image_tag "clearbits/comment.gif", :class => "icon green", :title => "Atividade recente" %>
+                    <% else %>
+                      <%= image_tag "clearbits/comment.gif", :class => "icon grey", :title => "Sem atividade recente" %>
+                    <% end %>
+                  </td>
+                  <td class="c2">
+                    <%= "Sticky: <strong>" if topic.sticky? %>
+                    <%= link_to h(topic.title), topic_path(forum, topic), :class => "entry-title", :rel => "bookmark" %>
+                    <%= "</strong>" if topic.sticky? %>
+                    <% if topic.paged? -%>
+                      <small><%= link_to 'último', topic_path(:forum_id => forum, :id => topic, :page => topic.last_page) %></small>
+                    <% end -%>
+                    <br>
+                    <% @last = topic.posts.last || topic -%>
+                    <abbr class="updated" title="<%= @last.created_at.xmlschema %>"><%= time_ago_in_words(@last.created_at) %></abbr>
+                    por <span class="author"><strong class="fn"><%= h(@last.user.display_name) %></strong></span>
+                  </td>
+                </tr>
+              <% end -%>
+            <% end -%>
+          </table>
+        </td>    
+      </tr>
+      <tr style="background-color: white"><td></td></tr>
+    <% end #for%>
+    </td>
+  
+  
+  
+  
+  
+    </tr>
+  </table>
+
+
+  <br/><br/>
+  <% 
+  #=end
+
+  %>

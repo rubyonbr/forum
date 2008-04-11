@@ -1,0 +1,21 @@
+<p>
+<label for="topic_title">Título</label><br />
+<%= f.text_field :title, :onchange => "edit_new_title(this);" %>
+
+<% if admin? %>
+<label style="margin-left:1em;"><%= f.check_box :sticky %> Sticky</label>
+<% end %>
+
+</p>
+<% if @topic.new_record? || (@post && !@post.errors.empty?) %>
+<p>
+<label for="topic_body">Descrição</label><br />
+<%= f.text_area :body, :rows => 12 %></p>
+<% end %>
+
+<% if admin? and not @topic.new_record? %>
+<p id="topic_forum_id">
+  <label for="topic_forum_id">Fórum</label><br />
+  <%= f.select :forum_id, Forum.find(:all).map {|x| [x.name, x.id] } %></p>
+</p>
+<% end %>

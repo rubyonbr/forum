@@ -1,0 +1,6 @@
+<h1>Novo Blog</h1>
+
+<% form_for :blog, :url => blog_path do |f| -%>
+<%= render :partial => "form", :locals => { :f => f } %>
+<%= submit_tag 'Criar' %> or <%= link_to 'cancelar', blogs_path %>
+<% end -%>

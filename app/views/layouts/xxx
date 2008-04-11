@@ -1,0 +1,51 @@
+<!--
+<div id="sub_header">
+  <div id="header">
+  	<ul id="nav">
+  	  <div style="display: block; text-align: right">
+  	   <iframe style="width:475px; height:70; border: 1px" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" src="http://rubyonbr.org/advertises_out"></iframe>
+  	  </div>
+  		<li><%= link_to 'Blogosfera', blogosfera_url %></li>
+  		<li><%= link_to 'F&oacute;rum', home_url, :rel => 'home' %></li>
+  		<li><%= link_to 'Usu&aacute;rios', users_url %></li>
+  		<li id="search" style="display:none;">
+  		  <%= start_form_tag all_posts_path, :method => 'get' %>
+  		    <%= text_field_tag :q, params[:q], :size => 15, :id => :search_box %>
+  			</form>
+  		</li>
+  		<li><%= link_to_function :Pesquisa, "$('search').toggle(); $('search_box').focus();" %></li>
+  
+  		<% if logged_in? %>
+  		<li class="login"><%= h current_user.login %></li>
+  		<li class="logout"><%= link_to "Configura&ccedil;&otilde;es", settings_url %></li>
+  		<li class="logout"><%= link_to "Sair", logout_url %></li>
+  		<% else %>
+  		<li><%= link_to "Registrar", signup_url %></li>
+  		<li><%= link_to "Logar", login_url %></li>
+  		<% end %>
+  	</ul>
+    <a href="http://rubyonbr.org/"><%= image_tag("logo-site.gif") %></a>
+    
+  </div>
+</div>
+-->
+
+<div id="internal_container">
+
+<div id="content">
+	
+<%= content_tag 'p', h(flash[:notice]), :class => 'notice' if flash[:notice] %>
+	
+<%= yield %>
+</div>
+
+<div id="right">
+	<%= yield :right %>
+</div>
+
+<br style="clear:both;" />
+
+</div>
+
+<%= render :partial => 'layouts/footer_tags' %>
+

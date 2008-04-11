@@ -1,0 +1,16 @@
+<div id="footer">
+  <br>
+  <p class="disclaim">
+<strong>
+
+	<%p=Phrase.find(:all, :include => :user)%>
+  <% selected=p[rand(Phrase.count)] %>
+  <i><%= selected.text %></i> - filósofo: <%= selected.user.display_name %>
+    </strong>
+</p>
+<p class="credit">
+  Powered by <a href="http://beast.caboo.se/">Beast</a><br />
+  &copy; 2006 <a href="mailto:josh@dwgsolutions.com" class="subtle">Josh Goebel</a> and <a href="http://weblog.techno-weenie.net" class="subtle">Rick Olson</a>
+</p>
+<br style="clear:both;" />
+</div>

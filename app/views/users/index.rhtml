@@ -1,0 +1,33 @@
+<h1>Usuários</h1>
+
+<% if @user_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @user_pages, :window_size => 10 %></strong></p>
+<% end -%>
+
+<%= start_form_tag nil, :method => 'get' %>
+<p>
+<label>Procurar</label>
+<%= text_field_tag :q, params[:q] %> <%= submit_tag "Go" %></p>
+</form>
+
+<table border="0" cellspacing="0" cellpadding="0" class="wide forums">
+  <tr>
+    <th class="la" width="88%">Usuário</th>
+    <th width="1%">Posts</th>
+  </tr>
+<% @users.each do |user|-%>  
+  <tr>
+    <td><%= link_to h(user.display_name), user_path(user), :class => (user.admin? ? "admin" : nil) %>
+      <span style="color:#666">
+      <%= "(administrator)" if user.admin? %>
+      <%= "(moderator)" unless user.moderatorships.empty? %>
+      </span>
+      </td>
+    <td class="ca inv"><%= user.posts_count %></td>
+  </tr>
+<% end %>
+</table>
+
+<% if @user_pages.page_count > 1 -%>
+<p class="pages">Páginas: <strong><%= pagination_links @user_pages, :window_size => 10 %></strong></p>
+<% end -%>

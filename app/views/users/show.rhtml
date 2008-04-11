@@ -1,0 +1,63 @@
+<% @page_title = @user.display_name -%>
+
+<p style="float:right;"><%= avatar_for @user, 80 %></p> 
+
+<h1><%=h @user.display_name %> 
+</h1>
+
+<p class="subtitle">
+  <%= feed_icon_tag @user.display_name, formatted_user_posts_path(:user_id => @user, :format => :rss) %>
+  <span>
+  <%= pluralize @user.posts_count, 'post' %> (<%= link_to "ver ", user_posts_path(@user) %>)
+  </span>
+
+</p>
+
+<p>
+<% unless @user.website.nil? || @user.website.empty? -%><div><label>Website:</label> <a href="<%=h @user.website %>" target="_blank"><%=h @user.website %></a></div><% end -%>
+<% unless @user.aim.nil? || @user.aim.empty? -%><div><label>AIM:</label> <%=h @user.aim %></div><% end -%>
+<% unless @user.yahoo.nil? || @user.yahoo.empty? -%><div><label>Yahoo:</label> <%=h @user.yahoo %></div><% end -%>
+<% unless @user.msn.nil? || @user.msn.empty? -%><div><label>MSN:</label> <%=h @user.msn %></div><% end -%>
+<% unless @user.google_talk.nil? || @user.google_talk.empty? -%><div><label>Google Talk: </label> <%=h @user.google_talk %></div><% end -%>
+</p>
+
+<% if admin?  -%>
+  <%# unless @user.admin? -%>
+
+  <% form_for :user, :url => admin_user_path(@user), :html => {:class => "dialog_admin"} do |f| -%>
+    <h2>Senha</h2>
+    <%= render :partial => "password", :object => f %>
+    <p><%= submit_tag 'Alterar senha' %></p>
+  <% end -%>
+
+  
+  <% form_for :user, :url => admin_user_path(@user), :html => { :class => "dialog_admin"} do |f| -%>
+    <%= render :partial => "settings", :object => f %>
+    <p><%= submit_tag 'Salvar configurações' %></p>
+  <% end -%>
+  
+  
+<% form_for :user, :url => admin_user_path(@user), :html => {:class => "dialog_admin"} do |f| -%>
+  <h2>Fórums Moderados</h2>
+  
+  <% if @user.forums.any? -%>
+  <ul>
+  <% @user.forums.find(:all, :select => 'forums.*, moderatorships.id as moderatorship_id').each do |forum| -%>
+    <li>
+      <%= link_to forum.name, forum_path(forum) %>
+      (<%= link_to 'x', moderator_path(@user, forum.moderatorship_id), :method => :delete %>)
+    </li>
+  <% end -%>
+  </ul>
+  <% end -%>
+  
+  <p><select name="moderator">
+    <option value="-">Tornar moderador de...</option>
+    <%= options_from_collection_for_select(Forum.find(:all) - @user.forums, "id", "name") %>
+  </select></p>
+  <%# end -%>
+  
+  <p><label><%= f.check_box :admin %> is admin?</label></p>
+  <p><%= submit_tag :Save %></p>
+<% end -%>
+<% end -%>

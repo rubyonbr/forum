@@ -1,0 +1,8 @@
+<h1>Editar Fórum</h1>
+
+<% form_for :forum,
+     :url  => forum_path(@forum),
+     :html => { :method => :put } do |f| -%>
+<%= render :partial => "form", :locals => { :f => f } %>
+<%= submit_tag 'Atualizar' %> or <%= link_to 'cancelar', forum_path(@forum) %>
+<% end -%>

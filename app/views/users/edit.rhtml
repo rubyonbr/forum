@@ -1,0 +1,26 @@
+<% content_for :right do %>
+
+<h5>Avatares</h5>
+
+<p>Para ter seu próprio avatar no fórum, visite: <a href="http://www.gravatar.com/">gravatar.com</a> e crie uma conta gratuita.</p>
+<p>Sim, sabemos que isso é um porre e pretendemos mudar isso em breve, mas por enquanto é isso mesmo.</p>
+<% end %>
+
+<h1>Configurações para <%= @user.display_name %></h1>
+<%= error_messages_for 'user' %>
+
+<% form_for :user, :url => user_path(@user),
+  :html => { :method => :put } do |f| -%>
+  <%= render :partial => "password", :object => f %>
+  <p><%= submit_tag 'Alterar senha' %></p>
+<% end -%>
+
+
+<% form_for :user, :url => user_path(@user),
+  :html => { :method => :put } do |f| -%>
+  <%= render :partial => "settings", :object => f %>
+  <p><%= submit_tag 'Salvar configurações' %></p>
+  <%= render :partial => "contact_info", :locals => { :settings => f } %>
+  <p><%= submit_tag 'Salvar configurações' %></p>
+<% end -%>
+
