@@ -1,0 +1,6 @@
+<%= link_to_function "<img src='/images/find.gif' /><br>Pesquisa", "$('search').toggle(); $('search_box').focus();", :class=>"link_feed" %>
+<div id="search" style="display:none;">
+        <%= start_form_tag all_posts_path, :method => 'get' %>
+        <%= text_field_tag :q, params[:q], :size => 15, :id => :search_box %>
+        <%= end_form_tag %>
+</div>
