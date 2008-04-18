@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class LostPasswordTest < Test::Unit::TestCase
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
   CHARSET = "utf-8"
+  
+  fixtures :users
 
   include ActionMailer::Quoting
 
@@ -17,11 +19,12 @@ class LostPasswordTest < Test::Unit::TestCase
   end
 
   def test_send_reset_passwd
-    @expected.subject = 'LostPassword#send_reset_passwd'
-    @expected.body    = read_fixture('send_reset_passwd')
-    @expected.date    = Time.now
-
-    assert_equal @expected.encoded, LostPassword.create_send_reset_passwd(@expected.date).encoded
+    user = User.find(:first)
+    response = LostPassword.create_send_reset_passwd(user,'localhost')
+    assert_match /Olá rubiano #{user.display_name}/, response.body
+    assert_match /#{user.login_key}/, response.body
+    assert_match user.email, response.to[0]
+    #assert_equal @expected.encoded, LostPassword.create_send_reset_passwd(@expected.date).encoded
   end
 
   private

@@ -64,6 +64,7 @@ require 'simple-rss'
 
 ##Load sender mail configuration     :shairon
 ActionMailer::Base.server_settings = YAML::load_file("config/send_email.yml")
+#ActionMailer::Base.server_settings = :test
 LAST_POSTS={}
 
 
