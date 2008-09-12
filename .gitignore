@@ -1,0 +1,13 @@
+.DS_Store
+thumbs.db
+log/*.log
+config/database.yml
+tmp/**/*
+db/*.sqlite3
+db/development_structure.sql
+db/schema.rb
+nbproject/
+nbproject/*
+*.tmproj
+coverage/*
+files/**/*
